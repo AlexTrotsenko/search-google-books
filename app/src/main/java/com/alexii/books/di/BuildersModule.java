@@ -16,4 +16,7 @@ public abstract class BuildersModule {
     @ContributesAndroidInjector(modules = {BookSearchActivityModule.class})
     abstract BookSearchActivity bindBookSearchActivity();
 
+    @ContributesAndroidInjector(modules = {BookDetailsActivityModule.class})
+    abstract BookDetailsActivity bindBookDetailsActivity();
+
 }

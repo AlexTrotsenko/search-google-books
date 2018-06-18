@@ -24,6 +24,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".details.BookDetailsActivity"
+            android:label="@string/title_book_details"
+            android:parentActivityName=".search.BookSearchActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.alexii.books.search.BookSearchActivity"/>
+        </activity>
     </application>
 
 </manifest>
