@@ -1,4 +1,4 @@
-package com.alexii.searchbooks;
+package com.alexii.books;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

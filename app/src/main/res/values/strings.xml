@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">search-books</string>
+    <string name="title_book_search">BookSearch</string>
+    <string name="search_text_hint">Search Google Books</string>
+    <string name="book_front_cover">book\'s front cover image</string>
 </resources>
