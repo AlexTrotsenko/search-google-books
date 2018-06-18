@@ -17,8 +17,10 @@ public class ImageBindingAdapter {
 
     @BindingAdapter(value={"url", "placeholder"}, requireAll=false)
     public void resetViewAndLoadImage(@NonNull ImageView imageView, @Nullable String url, @Nullable Drawable placeholder) {
-        imageView.setImageDrawable(placeholder);
-
-        picasso.load(url).fit().into(imageView);
+        picasso.load(url)
+                .placeholder(placeholder)
+                .error(placeholder)
+                .fit()
+                .into(imageView);
     }
 }
