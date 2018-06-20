@@ -15,7 +15,7 @@ import timber.log.Timber;
 class BookDetailsViewModel extends ViewModel {
     private final GoogleBookService booksService;
 
-    private final MutableLiveData<EBookInfo> bookInfo = new MutableLiveData<>();
+    private final MutableLiveData<EBookInfo> eBookInfo = new MutableLiveData<>();
     private Disposable pendingBookInfoLoading;
 
     BookDetailsViewModel(GoogleBookService booksService) {
@@ -29,7 +29,7 @@ class BookDetailsViewModel extends ViewModel {
 
 
     public void setInitialBookInfo(ShortEBookInfo initialEBookInfo) {
-        final EBookInfo currentBookInfo = bookInfo.getValue();
+        final EBookInfo currentBookInfo = eBookInfo.getValue();
 
         if (currentBookInfo != null
                 && initialEBookInfo.getId().equals(currentBookInfo.getId())) {
@@ -37,21 +37,21 @@ class BookDetailsViewModel extends ViewModel {
             return;
         }
 
-        bookInfo.setValue(initialEBookInfo);
+        eBookInfo.setValue(initialEBookInfo);
 
         if (pendingBookInfoLoading != null && !pendingBookInfoLoading.isDisposed()) pendingBookInfoLoading.dispose();
 
         pendingBookInfoLoading = booksService.getBookDetails(initialEBookInfo.getId())
                 .subscribeOn(Schedulers.io())
                 .subscribe(
-                        eBookResult -> bookInfo.postValue(eBookResult),
+                        eBookResult -> eBookInfo.postValue(eBookResult),
                         error -> Timber.e(error, "Unable to get book's details info from rest api.")
                 );
 
     }
 
-    public LiveData<EBookInfo> getBookInfo() {
-        return bookInfo;
+    public LiveData<EBookInfo> getEBookInfo() {
+        return eBookInfo;
     }
 
 

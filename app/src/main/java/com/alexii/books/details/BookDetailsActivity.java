@@ -17,9 +17,6 @@ import com.alexii.books.common.databinding.viewmodel.DetailedBookViewModel;
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import timber.log.Timber;
 
 public class BookDetailsActivity extends AppCompatActivity {
 
@@ -47,7 +44,7 @@ public class BookDetailsActivity extends AppCompatActivity {
         final ShortEBookInfo initialEBookInfo = getInitialEBookInfo();
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(BookDetailsViewModel.class);
-        viewModel.getBookInfo().observe(this, bindingViewModel::setEBook);
+        viewModel.getEBookInfo().observe(this, bindingViewModel::setEBook);
 
         viewModel.setInitialBookInfo(initialEBookInfo);
     }
