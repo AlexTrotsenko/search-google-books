@@ -4,8 +4,8 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.alexii.books.common.rest.dto.EBookInfo;
-import com.alexii.books.common.rest.services.GoogleBookService;
+import com.alexii.books.common.domain.Book;
+import com.alexii.books.common.repository.BooksRepository;
 
 import java.util.List;
 
@@ -14,13 +14,13 @@ import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 class BookSearchViewModel extends ViewModel {
-    private final GoogleBookService booksService;
+    private final BooksRepository booksRepo;
 
-    private final MutableLiveData<List<? extends EBookInfo>> books = new MutableLiveData<>();
+    private final MutableLiveData<List<? extends Book>> books = new MutableLiveData<>();
     private Disposable pendingBookSearch;
 
-    BookSearchViewModel(GoogleBookService booksService) {
-        this.booksService = booksService;
+    BookSearchViewModel(BooksRepository booksService) {
+        this.booksRepo = booksService;
     }
 
     @Override
@@ -28,19 +28,18 @@ class BookSearchViewModel extends ViewModel {
         pendingBookSearch.dispose();
     }
 
-
     public void searchBooks(CharSequence testToSearch) {
         if (pendingBookSearch != null && !pendingBookSearch.isDisposed()) pendingBookSearch.dispose();
 
-        pendingBookSearch = booksService.getBooks(testToSearch)
+        pendingBookSearch = booksRepo.getBooks(testToSearch)
                 .subscribeOn(Schedulers.io())
                 .subscribe(
-                        booksInfo -> books.postValue(booksInfo.getEBooks()),
-                        error -> Timber.e(error, "Unable to get books info from rest api.")
+                        books::postValue,
+                        e -> Timber.e(e, "Unable to get books info from rest api.")
                 );
     }
 
-    public LiveData<List<? extends EBookInfo>> getBooks() {
+    public LiveData<List<? extends Book>> getBooks() {
         return books;
     }
 

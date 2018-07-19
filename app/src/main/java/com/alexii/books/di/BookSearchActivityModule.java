@@ -1,6 +1,6 @@
 package com.alexii.books.di;
 
-import com.alexii.books.common.rest.services.GoogleBookService;
+import com.alexii.books.common.repository.BooksRepository;
 import com.alexii.books.search.BookSearchViewModelFactory;
 
 import dagger.Module;
@@ -13,7 +13,7 @@ import dagger.Provides;
 public class BookSearchActivityModule {
 
     @Provides
-    BookSearchViewModelFactory provideTasksViewModelFactory(GoogleBookService googleBookService) {
-        return new BookSearchViewModelFactory(googleBookService);
+    BookSearchViewModelFactory provideTasksViewModelFactory(BooksRepository booksRepo) {
+        return new BookSearchViewModelFactory(booksRepo);
     }
 }

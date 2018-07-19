@@ -4,6 +4,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.alexii.books.App;
+import com.alexii.books.common.repository.BooksRepository;
+import com.alexii.books.common.repository.impl.BooksRepositoryImpl;
+import com.alexii.books.common.rest.mapper.BookMapper;
 import com.alexii.books.common.rest.services.GoogleBookService;
 
 import javax.inject.Singleton;
@@ -29,5 +32,12 @@ public class AppModule {
     @NonNull
     public GoogleBookService provideGoogleBookService(Retrofit retrofit) {
         return retrofit.create(GoogleBookService.class);
+    }
+
+    @Singleton
+    @Provides
+    @NonNull
+    public BooksRepository provideBookRepository(GoogleBookService bookService, BookMapper bookMapper) {
+        return new BooksRepositoryImpl(bookService, bookMapper);
     }
 }

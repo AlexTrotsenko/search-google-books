@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
-import com.alexii.books.details.BookDetailsActivity;
+import com.alexii.books.common.domain.Book;
 import com.alexii.books.common.rest.dto.EBookInfo;
+import com.alexii.books.common.rest.dto.ShortEBookInfo;
+import com.alexii.books.details.BookDetailsActivity;
 
 
 /**
@@ -14,7 +16,7 @@ import com.alexii.books.common.rest.dto.EBookInfo;
  */
 public class BookViewModel extends BaseObservable {
     private Context context;
-    protected EBookInfo eBook;
+    protected Book book;
 
     public BookViewModel(Context context) {
         this.context = context;
@@ -22,21 +24,24 @@ public class BookViewModel extends BaseObservable {
 
     @Bindable
     public String getTitle() {
-        return eBook.getBookInfo().getTitle();
+        return book.getTitle();
     }
 
     @Bindable
     public String getThumbnailLink() {
-        return eBook.getBookInfo().getThumbnailLink();
+        return book.getThumbnailLink();
     }
 
-    public void setEBook(EBookInfo eBook) {
-        this.eBook = eBook;
+    public void setBook(Book book) {
+        this.book = book;
         notifyChange();
     }
 
     public void openBookDetails() {
-        Intent intent = BookDetailsActivity.newIntent(context, eBook);
+        //TODO: remove when from detailed screen refactored to use Book domain class instead of BookInfo dto: crashes app when details screen open.
+        final EBookInfo eBookInfo = new ShortEBookInfo();
+
+        Intent intent = BookDetailsActivity.newIntent(context, eBookInfo);
         context.startActivity(intent);
     }
 }

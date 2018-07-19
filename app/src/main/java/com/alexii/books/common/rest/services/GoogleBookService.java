@@ -4,7 +4,7 @@ import com.alexii.books.common.rest.MetaData;
 import com.alexii.books.common.rest.dto.BooksInfo;
 import com.alexii.books.common.rest.dto.DetailedEBookInfo;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -14,8 +14,8 @@ import retrofit2.http.Query;
  */
 public interface GoogleBookService {
     @GET(MetaData.VolumesList.PATH)
-    Observable<BooksInfo> getBooks(@Query(MetaData.VolumesList.SEARCH_QUERY_PARAM) CharSequence bookName);
+    Single<BooksInfo> getBooks(@Query(MetaData.VolumesList.SEARCH_QUERY_PARAM) CharSequence bookName);
 
     @GET(MetaData.VolumeDetails.PATH)
-    Observable<DetailedEBookInfo> getBookDetails(@Path(MetaData.VolumeDetails.ID_PATH_PARAM) CharSequence bookName);
+    Single<DetailedEBookInfo> getBookDetails(@Path(MetaData.VolumeDetails.ID_PATH_PARAM) CharSequence bookName);
 }

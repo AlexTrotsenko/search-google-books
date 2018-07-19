@@ -11,6 +11,7 @@ import com.alexii.books.R;
 import com.alexii.books.common.databinding.viewmodel.DetailedBookViewModel;
 import com.alexii.books.common.rest.dto.EBookInfo;
 import com.alexii.books.common.rest.dto.ShortEBookInfo;
+import com.alexii.books.common.rest.mapper.BookMapper;
 import com.alexii.books.databinding.ActivityBookDetailsBinding;
 
 import javax.inject.Inject;
@@ -40,7 +41,8 @@ public class BookDetailsActivity extends AppCompatActivity {
         final ShortEBookInfo initialEBookInfo = getInitialEBookInfo();
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(BookDetailsViewModel.class);
-        viewModel.getEBookInfo().observe(this, bindingViewModel::setEBook);
+        //TODO remove transform from view layer when from detailed screen refactored to use Book domain class instead of BookInfo dto
+        viewModel.getEBookInfo().observe(this, eBookInfo ->  bindingViewModel.setBook(new BookMapper().transform(eBookInfo)));
 
         viewModel.setInitialBookInfo(initialEBookInfo);
     }

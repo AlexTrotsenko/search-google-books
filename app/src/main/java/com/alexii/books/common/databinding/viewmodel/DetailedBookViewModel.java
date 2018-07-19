@@ -15,7 +15,7 @@ public class DetailedBookViewModel extends BookViewModel {
 
     @Bindable
     public CharSequence getDescription() {
-        final String bookDescription = eBook.getBookInfo().getDescription();
+        final String bookDescription = book.getDescription();
 
         if (bookDescription == null) return null;
 

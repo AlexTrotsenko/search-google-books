@@ -7,10 +7,10 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.alexii.books.R;
-import com.alexii.books.common.rest.dto.EBookInfo;
+import com.alexii.books.common.databinding.viewmodel.BookViewModel;
+import com.alexii.books.common.domain.Book;
 import com.alexii.books.common.rest.dto.ShortEBookInfo;
 import com.alexii.books.databinding.ListItemBookBinding;
-import com.alexii.books.common.databinding.viewmodel.BookViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +20,13 @@ import java.util.List;
  */
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.EBookHolder> {
 
-    private List<EBookInfo> eBooks = new ArrayList<>();
+    private List<Book> books = new ArrayList<>();
 
     public BookAdapter() {
     }
 
-    public BookAdapter(List<EBookInfo> eBooks) {
-        this.eBooks = eBooks;
+    public BookAdapter(List<Book> books) {
+        this.books = books;
     }
 
     @NonNull
@@ -39,31 +39,31 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.EBookHolder> {
 
     @Override
     public void onBindViewHolder(EBookHolder holder, int position) {
-        EBookInfo eBook = eBooks.get(position);
-        holder.bindEBook(eBook);
+        Book eBook = books.get(position);
+        holder.bindBook(eBook);
     }
 
     @Override
     public int getItemCount() {
-        return eBooks.size();
+        return books.size();
     }
 
     /**
      * Displays books for new "search input" from scratch.
      *
-     * @param eBooks
+     * @param books
      */
-    public void displayNewBooks(List<? extends EBookInfo> eBooks) {
-        this.eBooks.clear();
+    public void displayNewBooks(List<? extends Book> books) {
+        this.books.clear();
 
-        this.eBooks.addAll(eBooks);
+        this.books.addAll(books);
 
         notifyDataSetChanged();
     }
 
     public static class EBookHolder extends RecyclerView.ViewHolder {
         /**
-         * Binds eBook (model) to UI.
+         * Binds book (model) to UI.
          */
         private final BookViewModel bookViewModel;
 
@@ -83,8 +83,8 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.EBookHolder> {
             this.binding = binding;
         }
 
-        public void bindEBook(EBookInfo eBook) {
-            bookViewModel.setEBook(eBook);
+        public void bindBook(Book book) {
+            bookViewModel.setBook(book);
 
             binding.executePendingBindings();
         }
