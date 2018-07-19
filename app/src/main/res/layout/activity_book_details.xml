@@ -59,6 +59,7 @@
                     android:layout_alignParentTop="true"
                     android:contentDescription="@string/book_front_cover"
                     app:url="@{viewModel.thumbnailLink}"
+                     placeholder="@{@drawable/book_placeholder_black_48dp}"
                     />
 
                 <TextView
