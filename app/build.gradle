@@ -31,6 +31,7 @@ ext {
     butterKnifeVersion = '8.8.1'
     daggerVersion = "2.16"
     retrofitVersion = "2.4.0"
+    gsonVersion = "2.8.5"
     rxJavaVersion = "2.1.14"
     rxAndroidVersion = "2.0.2"
     rxBindingVersion = "2.1.1"
@@ -84,7 +85,9 @@ dependencies {
 
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-//    implementation "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation ("com.squareup.retrofit2:converter-gson:$retrofitVersion") {
+        exclude group: 'com.google.code.gson'
+    }
+    implementation "com.google.code.gson:gson:$gsonVersion"
 }
