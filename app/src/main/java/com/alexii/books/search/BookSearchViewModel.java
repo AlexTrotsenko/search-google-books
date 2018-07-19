@@ -3,7 +3,6 @@ package com.alexii.books.search;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.util.Log;
 
 import com.alexii.books.common.rest.dto.EBookInfo;
 import com.alexii.books.common.rest.services.GoogleBookService;

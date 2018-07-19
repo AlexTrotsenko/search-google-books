@@ -8,11 +8,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.alexii.books.R;
+import com.alexii.books.common.databinding.viewmodel.DetailedBookViewModel;
 import com.alexii.books.common.rest.dto.EBookInfo;
 import com.alexii.books.common.rest.dto.ShortEBookInfo;
-import com.alexii.books.common.rest.services.GoogleBookService;
 import com.alexii.books.databinding.ActivityBookDetailsBinding;
-import com.alexii.books.common.databinding.viewmodel.DetailedBookViewModel;
 
 import javax.inject.Inject;
 
@@ -26,9 +25,6 @@ public class BookDetailsActivity extends AppCompatActivity {
     BookDetailsViewModelFactory viewModelFactory;
 
     private BookDetailsViewModel viewModel;
-
-    @Inject
-    GoogleBookService googleBookService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
