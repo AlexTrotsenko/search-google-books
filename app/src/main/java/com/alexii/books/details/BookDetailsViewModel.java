@@ -4,22 +4,21 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.alexii.books.common.rest.dto.EBookInfo;
-import com.alexii.books.common.rest.dto.ShortEBookInfo;
-import com.alexii.books.common.rest.services.GoogleBookService;
+import com.alexii.books.common.domain.Book;
+import com.alexii.books.common.repository.BooksRepository;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 class BookDetailsViewModel extends ViewModel {
-    private final GoogleBookService booksService;
+    private final BooksRepository booksRepo;
 
-    private final MutableLiveData<EBookInfo> eBookInfo = new MutableLiveData<>();
+    private final MutableLiveData<Book> book = new MutableLiveData<>();
     private Disposable pendingBookInfoLoading;
 
-    BookDetailsViewModel(GoogleBookService booksService) {
-        this.booksService = booksService;
+    BookDetailsViewModel(BooksRepository booksRepo) {
+        this.booksRepo = booksRepo;
     }
 
     @Override
@@ -28,33 +27,29 @@ class BookDetailsViewModel extends ViewModel {
     }
 
 
-    public void setInitialBookInfo(ShortEBookInfo initialEBookInfo) {
-        final EBookInfo currentBookInfo = eBookInfo.getValue();
+    public void setInitialBookData(Book initialBookData) {
+        final Book currentBookData = book.getValue();
 
-        if (currentBookInfo != null
-                && initialEBookInfo.getId().equals(currentBookInfo.getId())) {
+        if (currentBookData != null
+                && initialBookData.getId().equals(currentBookData.getId())) {
             //do not load book info on rotation
             return;
         }
 
-        eBookInfo.setValue(initialEBookInfo);
+        book.setValue(initialBookData);
 
         if (pendingBookInfoLoading != null && !pendingBookInfoLoading.isDisposed()) pendingBookInfoLoading.dispose();
 
-        pendingBookInfoLoading = booksService.getBookDetails(initialEBookInfo.getId())
+        pendingBookInfoLoading = booksRepo.getBookDetails(initialBookData.getId())
                 .subscribeOn(Schedulers.io())
                 .subscribe(
-                        eBookResult -> eBookInfo.postValue(eBookResult),
-                        error -> Timber.e(error, "Unable to get book's details info from rest api.")
+                        book::postValue,
+                        e -> Timber.e(e, "Unable to get book's details info from rest api.")
                 );
 
     }
 
-    public LiveData<EBookInfo> getEBookInfo() {
-        return eBookInfo;
+    public LiveData<Book> getBook() {
+        return book;
     }
-
-
-
-
 }

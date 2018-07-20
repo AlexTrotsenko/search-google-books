@@ -9,9 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.alexii.books.R;
 import com.alexii.books.common.databinding.viewmodel.DetailedBookViewModel;
-import com.alexii.books.common.rest.dto.EBookInfo;
-import com.alexii.books.common.rest.dto.ShortEBookInfo;
-import com.alexii.books.common.rest.mapper.BookMapper;
+import com.alexii.books.common.domain.Book;
 import com.alexii.books.databinding.ActivityBookDetailsBinding;
 
 import javax.inject.Inject;
@@ -38,25 +36,25 @@ public class BookDetailsActivity extends AppCompatActivity {
         //todo: merge DetailedBookViewModel with BookDetailsViewModel for simplicity
         binding.setViewModel(bindingViewModel);
 
-        final ShortEBookInfo initialEBookInfo = getInitialEBookInfo();
+        final Book initialBookData = getInitialBookData();
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(BookDetailsViewModel.class);
         //TODO remove transform from view layer when from detailed screen refactored to use Book domain class instead of BookInfo dto
-        viewModel.getEBookInfo().observe(this, eBookInfo ->  bindingViewModel.setBook(new BookMapper().transform(eBookInfo)));
+        viewModel.getBook().observe(this, bindingViewModel::setBook);
 
-        viewModel.setInitialBookInfo(initialEBookInfo);
+        viewModel.setInitialBookData(initialBookData);
     }
 
-    public static Intent newIntent(Context context, EBookInfo eBook) {
+    public static Intent newIntent(Context context, Book book) {
         Intent intent = new Intent(context, BookDetailsActivity.class);
-        intent.putExtra(EXTRA_EBOOK, eBook);
+        intent.putExtra(EXTRA_EBOOK, book);
         return intent;
     }
 
     /**
      * @return initial minimal book data for displaying on activity start-up.
      */
-    protected ShortEBookInfo getInitialEBookInfo() {
-        return (ShortEBookInfo) getIntent().getSerializableExtra(EXTRA_EBOOK);
+    protected Book getInitialBookData() {
+        return (Book) getIntent().getSerializableExtra(EXTRA_EBOOK);
     }
 }

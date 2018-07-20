@@ -4,7 +4,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.alexii.books.common.domain.Book;
+import com.alexii.books.common.domain.DetailedBook;
 import com.alexii.books.common.rest.dto.BookInfo;
+import com.alexii.books.common.rest.dto.DetailedEBookInfo;
 import com.alexii.books.common.rest.dto.EBookInfo;
 
 import java.util.ArrayList;
@@ -26,13 +28,18 @@ public class BookMapper {
         if (eBookInfo == null) return null;
 
         final Book book = new Book();
+
+        transformBookData(eBookInfo, book);
+
+        return book;
+    }
+
+    private void transformBookData(@NonNull EBookInfo eBookInfo, Book book) {
         book.setId(eBookInfo.getId());
 
         final BookInfo bookInfo = eBookInfo.getBookInfo();
         book.setTitle(bookInfo.getTitle());
         book.setThumbnailLink(bookInfo.getThumbnailLink());
-
-        return book;
     }
 
     public @NonNull List<Book> transform(@Nullable Collection<? extends EBookInfo> eBookInfos) {
@@ -45,5 +52,15 @@ public class BookMapper {
         }
 
         return books;
+    }
+
+    public DetailedBook transform(DetailedEBookInfo detailedBookInfo) {
+        final DetailedBook detailedBook = new DetailedBook();
+
+        transformBookData(detailedBookInfo, detailedBook);
+
+        detailedBook.setDescription(detailedBookInfo.getBookInfo().getDescription());
+
+        return detailedBook;
     }
 }

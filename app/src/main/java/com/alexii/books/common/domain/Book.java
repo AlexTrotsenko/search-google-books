@@ -1,6 +1,9 @@
 package com.alexii.books.common.domain;
 
-public class Book {
+import java.io.Serializable;
+
+//xxx consider replacing with Parcelable
+public class Book implements Serializable {
     private String id;
     private String title;
     private String thumbnailLink;

@@ -6,8 +6,6 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import com.alexii.books.common.domain.Book;
-import com.alexii.books.common.rest.dto.EBookInfo;
-import com.alexii.books.common.rest.dto.ShortEBookInfo;
 import com.alexii.books.details.BookDetailsActivity;
 
 
@@ -38,10 +36,7 @@ public class BookViewModel extends BaseObservable {
     }
 
     public void openBookDetails() {
-        //TODO: remove when from detailed screen refactored to use Book domain class instead of BookInfo dto: crashes app when details screen open.
-        final EBookInfo eBookInfo = new ShortEBookInfo();
-
-        Intent intent = BookDetailsActivity.newIntent(context, eBookInfo);
+        Intent intent = BookDetailsActivity.newIntent(context, book);
         context.startActivity(intent);
     }
 }
