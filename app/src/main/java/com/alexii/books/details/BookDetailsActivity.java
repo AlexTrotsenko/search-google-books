@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.alexii.books.R;
-import com.alexii.books.common.databinding.viewmodel.DetailedBookViewModel;
 import com.alexii.books.common.domain.Book;
 import com.alexii.books.databinding.ActivityBookDetailsBinding;
 
@@ -31,17 +30,13 @@ public class BookDetailsActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(BookDetailsViewModel.class);
+
         ActivityBookDetailsBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_book_details);
-        DetailedBookViewModel bindingViewModel = new DetailedBookViewModel(this);
-        //todo: merge DetailedBookViewModel with BookDetailsViewModel for simplicity
-        binding.setViewModel(bindingViewModel);
+        binding.setViewModel(viewModel);
+        binding.setLifecycleOwner(this);
 
         final Book initialBookData = getInitialBookData();
-
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(BookDetailsViewModel.class);
-        //TODO remove transform from view layer when from detailed screen refactored to use Book domain class instead of BookInfo dto
-        viewModel.getBook().observe(this, bindingViewModel::setBook);
-
         viewModel.setInitialBookData(initialBookData);
     }
 

@@ -2,7 +2,10 @@ package com.alexii.books.details;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
+import android.support.annotation.Nullable;
+import android.text.Html;
 
 import com.alexii.books.common.domain.Book;
 import com.alexii.books.common.repository.BooksRepository;
@@ -11,7 +14,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
-class BookDetailsViewModel extends ViewModel {
+public class BookDetailsViewModel extends ViewModel {
     private final BooksRepository booksRepo;
 
     private final MutableLiveData<Book> book = new MutableLiveData<>();
@@ -49,7 +52,29 @@ class BookDetailsViewModel extends ViewModel {
 
     }
 
-    public LiveData<Book> getBook() {
+    private LiveData<Book> getBook() {
         return book;
     }
+
+    public LiveData<String> getTitle() {
+        return Transformations.map(getBook(), Book::getTitle);
+    }
+
+    public LiveData<String> getThumbnailLink() {
+        return Transformations.map(getBook(), Book::getThumbnailLink);
+    }
+
+    public LiveData<CharSequence> getDescription() {
+        return Transformations.map(getBook(), this::toHtmlLessDescription);
+    }
+
+    @Nullable
+    private CharSequence toHtmlLessDescription(Book book) {
+        final String description = book.getDescription();
+
+        if (description == null) return null;
+
+        return Html.fromHtml(description);
+    }
+
 }
