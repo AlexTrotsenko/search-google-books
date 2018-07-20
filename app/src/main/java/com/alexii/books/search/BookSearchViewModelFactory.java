@@ -3,21 +3,26 @@ package com.alexii.books.search;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
-import com.alexii.books.common.repository.BooksRepository;
+import com.alexii.books.di.scope.PerActivity;
 
+import javax.inject.Inject;
+import javax.inject.Provider;
+
+@PerActivity
 public class BookSearchViewModelFactory implements ViewModelProvider.Factory {
 
-    private final BooksRepository booksRepo;
+    private final Provider<BookSearchViewModel> viewModelProvider;
 
-    public BookSearchViewModelFactory(BooksRepository booksRepo) {
-        this.booksRepo = booksRepo;
+    @Inject
+    public BookSearchViewModelFactory(Provider<BookSearchViewModel> viewModelProvider) {
+        this.viewModelProvider = viewModelProvider;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T extends ViewModel> T create(Class<T> modelClass) {
         if (modelClass.isAssignableFrom(BookSearchViewModel.class)) {
-            return (T) new BookSearchViewModel(booksRepo);
+            return (T) viewModelProvider.get();
         }
         throw new IllegalArgumentException("Unknown ViewModel class " + modelClass);
     }

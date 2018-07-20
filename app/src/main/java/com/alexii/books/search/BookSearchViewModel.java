@@ -9,6 +9,8 @@ import com.alexii.books.common.repository.BooksRepository;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
@@ -19,6 +21,7 @@ class BookSearchViewModel extends ViewModel {
     private final MutableLiveData<List<? extends Book>> books = new MutableLiveData<>();
     private Disposable pendingBookSearch;
 
+    @Inject
     BookSearchViewModel(BooksRepository booksService) {
         this.booksRepo = booksService;
     }

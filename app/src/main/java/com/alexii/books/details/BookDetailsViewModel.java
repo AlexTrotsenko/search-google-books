@@ -10,6 +10,8 @@ import android.text.Html;
 import com.alexii.books.common.domain.Book;
 import com.alexii.books.common.repository.BooksRepository;
 
+import javax.inject.Inject;
+
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
@@ -20,6 +22,7 @@ public class BookDetailsViewModel extends ViewModel {
     private final MutableLiveData<Book> book = new MutableLiveData<>();
     private Disposable pendingBookInfoLoading;
 
+    @Inject
     BookDetailsViewModel(BooksRepository booksRepo) {
         this.booksRepo = booksRepo;
     }

@@ -10,6 +10,7 @@ import dagger.Provides;
 public class DataBindingModule {
     @Provides
     DefaultDataBindingComponent provideDataBindingComponent(Picasso picasso) {
+        //creation left verbose for clarity
         return new DefaultDataBindingComponent(picasso);
     }
 }
